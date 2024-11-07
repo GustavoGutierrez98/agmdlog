@@ -1,19 +1,21 @@
-// Import the functions you need from the SDKs you need
+// src/firebaseConfig.js
 import { initializeApp } from "firebase/app";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+import { getAuth } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
 
-// Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyDtmuzROsIsCtTUnI4v0I23G8SNa691zrI",
   authDomain: "agmdlog.firebaseapp.com",
+  databaseURL: "https://agmdlog-default-rtdb.firebaseio.com",
   projectId: "agmdlog",
   storageBucket: "agmdlog.firebasestorage.app",
   messagingSenderId: "939496453940",
   appId: "1:939496453940:web:a41dba115b0103bbda1761",
 };
 
-// Initialize Firebase
+// Inicializar Firebase
 const app = initializeApp(firebaseConfig);
+
+// Inicializar Auth, Firestore, y Realtime Database
 export const auth = getAuth(app);
-export default app; // Exporta `app` si lo necesitas en otros archivos
+export const db = getFirestore(app);
