@@ -11,7 +11,7 @@ function AppBarComponent() {
   const handleLogout = async () => {
     try {
       await signOut(auth);
-      navigate("/login"); // Redirige al login o página de inicio
+      navigate("/"); // Redirige al login o página de inicio
     } catch (error) {
       console.error("Error al cerrar sesión: ", error);
     }

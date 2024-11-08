@@ -11,7 +11,7 @@ function App() {
       {" "}
       {/* Asegúrate de envolver toda la aplicación con Router */}
       <Routes>
-        <Route path="/login" element={<Login />} />
+        <Route path="/" element={<Login />} />
         <Route path="/register" element={<AppointmentForm />} />
 
         <Route path="/calendar" element={<CitasCalendario />} />
