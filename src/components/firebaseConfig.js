@@ -1,21 +1,22 @@
 // src/firebaseConfig.js
 import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
+import { getAuth, signOut } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDtmuzROsIsCtTUnI4v0I23G8SNa691zrI",
-  authDomain: "agmdlog.firebaseapp.com",
-  databaseURL: "https://agmdlog-default-rtdb.firebaseio.com",
-  projectId: "agmdlog",
-  storageBucket: "agmdlog.firebasestorage.app",
-  messagingSenderId: "939496453940",
-  appId: "1:939496453940:web:a41dba115b0103bbda1761",
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+  databaseURL: process.env.REACT_APP_FIREBASE_DATABASE_URL,
+  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_FIREBASE_APP_ID,
 };
 
 // Inicializar Firebase
 const app = initializeApp(firebaseConfig);
 
-// Inicializar Auth, Firestore, y Realtime Database
+// Inicializar Auth y Firestore
 export const auth = getAuth(app);
 export const db = getFirestore(app);
+export { signOut };

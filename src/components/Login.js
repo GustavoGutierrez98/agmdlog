@@ -6,33 +6,50 @@ import TextField from "@mui/material/TextField";
 import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import { useNavigate } from "react-router-dom"; // Importamos el hook useNavigate
+import { useNavigate } from "react-router-dom";
+import Typography from "@mui/material/Typography"; // Para el título
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
-  const navigate = useNavigate(); // Hook para navegación
+  const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
       await signInWithEmailAndPassword(auth, email, password);
       alert("Inicio de sesión exitoso!");
-      navigate("/register"); // Redirige a la pantalla de registro de citas
+      navigate("/register");
     } catch (err) {
       setError("Error al iniciar sesión: " + err.message);
     }
   };
 
   return (
-    <div>
-      <h2>Iniciar Sesión</h2>
-      <form onSubmit={handleLogin}>
-        <Box sx={{ width: 300, margin: "0 auto" }}>
-          {" "}
-          {/* Ajusté el ancho y agregué margin */}
-          <Stack spacing={2} direction="column">
+    <Box
+      sx={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        minHeight: "100vh",
+        backgroundColor: "#f3f4f6", // Color de fondo suave
+      }}
+    >
+      <Box
+        sx={{
+          width: 400,
+          padding: 4,
+          borderRadius: 2,
+          boxShadow: 3,
+          backgroundColor: "white",
+        }}
+      >
+        <Typography variant="h5" component="h2" textAlign="center" gutterBottom>
+          Iniciar Sesión
+        </Typography>
+        <form onSubmit={handleLogin}>
+          <Stack spacing={3}>
             <TextField
               type="email"
               value={email}
@@ -55,11 +72,14 @@ function Login() {
               Iniciar Sesión
             </Button>
           </Stack>
-        </Box>
-      </form>
-      {error && <p style={{ color: "red" }}>{error}</p>}{" "}
-      {/* Mensaje de error más visible */}
-    </div>
+        </form>
+        {error && (
+          <Typography color="error" sx={{ mt: 2, textAlign: "center" }}>
+            {error}
+          </Typography>
+        )}
+      </Box>
+    </Box>
   );
 }
 
