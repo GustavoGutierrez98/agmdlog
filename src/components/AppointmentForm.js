@@ -15,6 +15,8 @@ import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import AppBarComponent from "./AppBarComponent";
 
 const AppointmentForm = () => {
@@ -28,6 +30,21 @@ const AppointmentForm = () => {
   useEffect(() => {
     fetchAppointments();
   }, []);
+
+  // Ensure proper lifecycle for ToastContainer
+  useEffect(() => {
+    const toastSuccess = (message) => toast.success(message);
+    const toastError = (message) => toast.error(message);
+
+    // You could set up conditions or actions based on toast notifications
+    if (editingAppointment) {
+      toastSuccess("Cita actualizada");
+    }
+
+    return () => {
+      // This cleanup ensures no dangling operations on toast
+    };
+  }, [appointments]); // Runs when appointments change
 
   const fetchAppointments = async () => {
     const querySnapshot = await getDocs(collection(db, "appointments"));
@@ -52,13 +69,13 @@ const AppointmentForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!date || !time || !patient) {
-      alert("Todos los campos son obligatorios.");
+      toast.warn("Todos los campos son obligatorios.");
       return;
     }
 
     // Verifica si ya existe una cita en la misma fecha y hora
     if (await isDuplicateAppointment(date, time)) {
-      alert("Ya existe una cita en esta fecha y hora.");
+      toast.warn("Ya existe una cita a esa hora.");
       return;
     }
 
@@ -71,9 +88,9 @@ const AppointmentForm = () => {
           time,
           patient,
         });
-        console.log("Cita guardada");
+        toast.success("Cita guardada");
       } catch (e) {
-        console.error("Error al guardar la cita: ", e);
+        toast.error("Error al guardar la cita: ", e);
       }
     }
 
@@ -96,7 +113,7 @@ const AppointmentForm = () => {
       setEditingAppointment(null);
       fetchAppointments();
     } catch (error) {
-      console.error("Error al actualizar la cita: ", error);
+      toast.error("Error al actualizar la cita: ", error);
     }
   };
 
@@ -105,8 +122,9 @@ const AppointmentForm = () => {
     try {
       await deleteDoc(appointmentRef);
       fetchAppointments();
+      toast.success("Cita Eliminada");
     } catch (error) {
-      console.error("Error al eliminar la cita: ", error);
+      toast.error("Error al eliminar la cita: ", error);
     }
   };
 
@@ -129,6 +147,18 @@ const AppointmentForm = () => {
 
   return (
     <Container>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
       <AppBarComponent />
       <Paper style={{ padding: "20px", margin: "20px 0" }}>
         <TextField
