@@ -34,7 +34,7 @@ const AppointmentForm = () => {
   // Ensure proper lifecycle for ToastContainer
   useEffect(() => {
     const toastSuccess = (message) => toast.success(message);
-    const toastError = (message) => toast.error(message);
+    //const toastError = (message) => toast.error(message);
 
     // You could set up conditions or actions based on toast notifications
     if (editingAppointment) {
@@ -44,7 +44,7 @@ const AppointmentForm = () => {
     return () => {
       // This cleanup ensures no dangling operations on toast
     };
-  }, [appointments]); // Runs when appointments change
+  }, [appointments, editingAppointment]); // Runs when appointments change
 
   const fetchAppointments = async () => {
     const querySnapshot = await getDocs(collection(db, "appointments"));
@@ -202,7 +202,17 @@ const AppointmentForm = () => {
               />
             </Grid>
           </Grid>
-          <Button type="submit" variant="contained" color="primary">
+          <Button
+            type="submit"
+            variant="contained"
+            sx={{
+              backgroundColor: "#d332bf", // Change background color
+              color: "white", // Change text color
+              "&:hover": {
+                backgroundColor: "#8E4585", // Change hover background color
+              },
+            }}
+          >
             {editingAppointment ? "Actualizar" : "Agregar"}
           </Button>
         </form>

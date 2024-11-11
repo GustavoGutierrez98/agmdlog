@@ -1,4 +1,3 @@
-// src/Login.js
 import React, { useState } from "react";
 import { auth } from "./firebaseConfig";
 import { signInWithEmailAndPassword } from "firebase/auth";
@@ -8,6 +7,8 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
 import Typography from "@mui/material/Typography"; // Para el título
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -17,12 +18,24 @@ function Login() {
 
   const handleLogin = async (e) => {
     e.preventDefault();
+
+    // Check if both fields are filled
+    if (!email || !password) {
+      toast.warn("Por favor, llena todos los campos.", {
+        position: "top-right", // You can adjust the position
+        autoClose: 3000, // Time in milliseconds before the toast disappears
+        hideProgressBar: true,
+      });
+      return; // Prevent form submission if fields are empty
+    }
+
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      alert("Inicio de sesión exitoso!");
+      toast.success("Inicio de sesión exitoso!"); // Success toast
       navigate("/register");
     } catch (err) {
-      setError("Error al iniciar sesión: " + err.message);
+      toast.error("Error al iniciar sesión: " + err.message); // Error toast
+      setError(err.message); // Optionally, set error message to display below the form
     }
   };
 
@@ -46,7 +59,7 @@ function Login() {
         }}
       >
         <Typography variant="h5" component="h2" textAlign="center" gutterBottom>
-          Iniciar Sesión
+          LOGIN
         </Typography>
         <form onSubmit={handleLogin}>
           <Stack spacing={3}>
@@ -68,7 +81,23 @@ function Login() {
               fullWidth
               required
             />
-            <Button variant="contained" type="submit" fullWidth>
+            <Button
+              variant="contained"
+              type="submit"
+              fullWidth
+              sx={{
+                backgroundColor: "#d332bf", // Change background color
+                color: "white", // Change text color
+                fontSize: "16px", // Set font size
+                fontWeight: "bold", // Make text bold
+                fontFamily: "'Roboto', sans-serif", // Set font family
+                textTransform: "none", // Prevent text from being uppercase
+                letterSpacing: "1px", // Add some letter spacing
+                "&:hover": {
+                  backgroundColor: "#8E4585", // Change hover background color
+                },
+              }}
+            >
               Iniciar Sesión
             </Button>
           </Stack>
@@ -79,6 +108,7 @@ function Login() {
           </Typography>
         )}
       </Box>
+      <ToastContainer /> {/* This will render the toast notifications */}
     </Box>
   );
 }

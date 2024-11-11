@@ -18,7 +18,13 @@ function AppBarComponent() {
   };
 
   return (
-    <AppBar position="static">
+    <AppBar
+      position="static"
+      sx={{
+        backgroundColor: "#d332bf", // Change background color
+        color: "white", // Change text color
+      }}
+    >
       <Toolbar>
         <Typography variant="h6" sx={{ flexGrow: 1 }}>
           Gestión de Citas
