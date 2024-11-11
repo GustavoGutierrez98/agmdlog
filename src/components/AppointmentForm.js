@@ -7,6 +7,8 @@ import {
   updateDoc,
   deleteDoc,
   doc,
+  query,
+  where,
 } from "firebase/firestore";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
@@ -18,7 +20,7 @@ import AppBarComponent from "./AppBarComponent";
 const AppointmentForm = () => {
   const [appointments, setAppointments] = useState([]);
   const [date, setDate] = useState("");
-  const [time, setTime] = useState("");
+  const [time, setTime] = useState("08:00"); // Hora inicial en punto
   const [patient, setPatient] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [editingAppointment, setEditingAppointment] = useState(null);
@@ -36,10 +38,27 @@ const AppointmentForm = () => {
     setAppointments(appointmentsList);
   };
 
+  // Función para verificar si existe una cita duplicada
+  const isDuplicateAppointment = async (date, time) => {
+    const q = query(
+      collection(db, "appointments"),
+      where("date", "==", date),
+      where("time", "==", time)
+    );
+    const querySnapshot = await getDocs(q);
+    return !querySnapshot.empty;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!date || !time || !patient) {
       alert("Todos los campos son obligatorios.");
+      return;
+    }
+
+    // Verifica si ya existe una cita en la misma fecha y hora
+    if (await isDuplicateAppointment(date, time)) {
+      alert("Ya existe una cita en esta fecha y hora.");
       return;
     }
 
@@ -59,7 +78,7 @@ const AppointmentForm = () => {
     }
 
     setDate("");
-    setTime("");
+    setTime("08:00"); // Reinicia la hora a una hora en punto
     setPatient("");
   };
 
@@ -147,6 +166,9 @@ const AppointmentForm = () => {
                 onChange={(e) => setTime(e.target.value)}
                 fullWidth
                 margin="normal"
+                inputProps={{
+                  step: 3600, // Intervalo de 1 hora en segundos
+                }}
               />
             </Grid>
           </Grid>
