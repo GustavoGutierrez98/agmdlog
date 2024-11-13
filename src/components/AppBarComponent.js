@@ -21,7 +21,7 @@ function AppBarComponent() {
     <AppBar
       position="static"
       sx={{
-        backgroundColor: "#d332bf", // Change background color
+        backgroundColor: "#A81313", // Change background color
         color: "white", // Change text color
       }}
     >

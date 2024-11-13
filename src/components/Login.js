@@ -86,7 +86,7 @@ function Login() {
               type="submit"
               fullWidth
               sx={{
-                backgroundColor: "#d332bf", // Change background color
+                backgroundColor: "#A81313", // Change background color
                 color: "white", // Change text color
                 fontSize: "16px", // Set font size
                 fontWeight: "bold", // Make text bold
@@ -94,7 +94,7 @@ function Login() {
                 textTransform: "none", // Prevent text from being uppercase
                 letterSpacing: "1px", // Add some letter spacing
                 "&:hover": {
-                  backgroundColor: "#8E4585", // Change hover background color
+                  backgroundColor: "#CA1616", // Change hover background color
                 },
               }}
             >

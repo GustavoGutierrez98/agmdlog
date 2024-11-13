@@ -206,10 +206,10 @@ const AppointmentForm = () => {
             type="submit"
             variant="contained"
             sx={{
-              backgroundColor: "#d332bf", // Change background color
+              backgroundColor: "#A81313", // Change background color
               color: "white", // Change text color
               "&:hover": {
-                backgroundColor: "#8E4585", // Change hover background color
+                backgroundColor: "#CA1616", // Change hover background color
               },
             }}
           >
